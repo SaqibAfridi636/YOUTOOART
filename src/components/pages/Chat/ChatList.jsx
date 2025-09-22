@@ -1,64 +1,67 @@
-// src/components/Chat/ChatList.jsx
-import React, { useState, useEffect } from "react";
-import Jeremiahgreenimage from "../../../assets/images/Jeremiahgreenimage.png";
+import React, { useEffect, useState } from "react";
 import { formatTime } from "./TimeFormatter";
 
 const ChatList = ({ chats, selectedChat, onSelectChat }) => {
-  const [timeUpdate, setTimeUpdate] = useState(0);
-
+  const [, setTick] = useState(0);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeUpdate((prev) => prev + 1);
-    }, 60000);
-    return () => clearInterval(interval);
+    const i = setInterval(() => setTick((t) => t + 1), 60000);
+    return () => clearInterval(i);
   }, []);
 
-  const handleClick = (chat) => {
-    const updatedChat = { ...chat, unread: 0 };
-    onSelectChat(updatedChat);
-  };
+  const handleClick = (chat) => onSelectChat({ ...chat, unread: 0 });
 
   return (
-    <div className="w-[30%] border-r mt-[2px] bg-white flex flex-col">
+    <aside className="w-[270px] md:w-[300px] bg-white border-r flex flex-col">
       <div className="flex-1 overflow-y-auto">
-        {chats.map((chat) => (
-          <div
-            key={chat.id}
-            onClick={() => handleClick(chat)}
-            className={`flex items-center px-4 py-3 cursor-pointer border-b border-gray-200 ${
-              selectedChat?.id === chat.id
-                ? "bg-gray-200"
-                : "hover:bg-gray-100"
-            }`}
-          >
-            {/* User Image */}
-            <img
-              src={Jeremiahgreenimage}
-              alt="profile"
-              className="w-[42px] h-[42px] rounded-full mr-3"
-            />
+        {chats.map((chat) => {
+          const active = selectedChat?.id === chat.id;
 
-            {/* User Details */}
-            <div className="flex-1 flex flex-col">
-              <div className="flex justify-between items-center">
-                <h4 className="font-medium">{chat.name}</h4>
-                <span className="text-xs text-gray-400">
-                  {formatTime(chat.createdAt)}
-                </span>
+          return (
+            <button
+              key={chat.id}
+              onClick={() => handleClick(chat)}
+              className={`relative w-full text-left px-4 py-3 flex items-start gap-3 transition-colors border-b border-gray-100
+                ${active ? "bg-blue-100" : "hover:bg-gray-100/70"}`}
+            >
+              {/* tiny blue indicator dot on the LEFT for the active row */}
+              {active && (
+                <span className="absolute left-1 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-blue-500" />
+              )}
+
+              {/* Avatar */}
+              <img
+                src={chat.image}
+                alt={chat.name}
+                className="mt-0.5 w-10 h-10 rounded-full object-cover"
+              />
+
+              {/* Text block */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <h4 className="font-medium truncate">{chat.name}</h4>
+
+                  <div className="ml-auto flex items-center gap-2 shrink-0">
+                    <span className="text-[11px] text-gray-400">
+                      {chat.createdAt ? formatTime(chat.createdAt) : chat.time || ""}
+                    </span>
+
+                    {chat.unread > 0 && (
+                      <span className="inline-grid place-items-center h-5 min-w-[20px] px-1 rounded-full bg-blue-500 text-white text-[11px]">
+                        {chat.unread}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <p className="mt-0.5 text-[13px] text-gray-500 truncate">
+                  {chat.message}
+                </p>
               </div>
-              <p className="text-sm text-gray-500 truncate max-w-[180px] ">{chat.message}</p>
-            </div>
-
-            {/* Unread Badge */}
-            {chat.unread > 0 && (
-              <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full ml-2">
-                {chat.unread}
-              </span>
-            )}
-          </div>
-        ))}
+            </button>
+          );
+        })}
       </div>
-    </div>
+    </aside>
   );
 };
 

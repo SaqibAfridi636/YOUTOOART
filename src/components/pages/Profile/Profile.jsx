@@ -1,14 +1,10 @@
-// src/pages/ProfilePage.jsx
+// src/pages/ProfilePage/Profile.jsx
 import React, { useState } from "react";
-import { FiSearch, FiShare2, FiMenu } from "react-icons/fi";
-import { BsThreeDots } from "react-icons/bs";
-import { FaCheckCircle, FaRegCommentDots } from "react-icons/fa";
-import { AiOutlineHeart } from "react-icons/ai";
+import { FiSearch, FiMenu } from "react-icons/fi";
 import Sidebar from "../../common/layout/Sidebar/Sidebar";
 import NotificationSection from "../../common/NotificationSection";
 
 import UserLogo from "../../../assets/Logos/UserLogo.png";
-import Postpicture from "../../../assets/images/Postpicture.png";
 import Activityicon from "../../../assets/Icons/Activityicon.png";
 import ProfileAbouticon from "../../../assets/Icons/ProfileAbouticon.png";
 import Workicon from "../../../assets/Icons/Workicon.png";
@@ -17,6 +13,9 @@ import Connecticon from "../../../assets/Icons/Connecticon.png";
 import Posticon from "../../../assets/Icons/Posticon.png";
 import Moreicon from "../../../assets/Icons/Moreicon.png";
 import Editicon from "../../../assets/Icons/Editicon.png";
+import { FaCheckCircle } from "react-icons/fa";
+
+import TabContent from "./TabContent";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState("activity");
@@ -48,7 +47,6 @@ const Profile = () => {
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 bg-white border-b">
           <div className="flex items-center space-x-3">
-            {/* Mobile menu button */}
             <button
               onClick={() => setShowSidebar(true)}
               className="md:hidden text-2xl"
@@ -70,7 +68,11 @@ const Profile = () => {
               onClick={() => setShowNotifications(!showNotifications)}
               className="relative"
             >
-              <img src={Notificationicon} alt="notifications" className="w-6 h-6" />
+              <img
+                src={Notificationicon}
+                alt="notifications"
+                className="w-6 h-6"
+              />
             </button>
           </div>
         </div>
@@ -145,70 +147,28 @@ const Profile = () => {
           ))}
         </div>
 
-        {/* Post */}
-        <div className="bg-white mt-3 p-4 shadow">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <img
-                src={UserLogo}
-                alt="profile"
-                className="w-10 h-10 rounded-full"
-              />
-              <div>
-                <h4 className="font-semibold">Muhammad Wajahat</h4>
-                <p className="text-xs text-gray-500">2 Days Ago</p>
-              </div>
-            </div>
-            <BsThreeDots className="text-gray-500 cursor-pointer" />
-          </div>
-
-          <p className="mt-3 text-gray-700 text-sm md:text-base">
-            Hi Guys! Something interesting is on its way! 3 Days to Go.{" "}
-            <span className="text-blue-500">#Reveal #Audition #FawadKhan</span>
-          </p>
-
-          <img
-            src={Postpicture}
-            alt="post"
-            className="w-full mt-3 rounded-lg max-h-80 object-cover"
-          />
-
-          {/* Actions */}
-          <div className="flex items-center justify-around mt-4 text-gray-600 text-sm">
-            <div className="flex items-center space-x-1">
-              <AiOutlineHeart className="text-xl" />
-              <span>141.2K</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <FaRegCommentDots className="text-xl" />
-              <span>14K</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <FiShare2 className="text-xl" />
-              <span>14K</span>
-            </div>
-          </div>
-        </div>
+        {/* Tab Content */}
+        <TabContent activeTab={activeTab} />
       </div>
 
-      {/* Desktop Notification Panel */}
+      {/* Notifications */}
       {showNotifications && (
-        <div className="hidden lg:block w-[20%] min-w-[250px] border-l bg-white p-4">
-          <NotificationSection />
-        </div>
-      )}
-
-      {/* Mobile Notification Drawer */}
-      {showNotifications && (
-        <div className="fixed inset-0 z-50 lg:hidden flex">
-          <div className="w-64 bg-white shadow-lg">
+        <>
+          {/* Desktop */}
+          <div className="hidden lg:block w-[20%] min-w-[250px] border-l bg-white p-4">
             <NotificationSection />
           </div>
-          <div
-            className="flex-1 bg-black bg-opacity-50"
-            onClick={() => setShowNotifications(false)}
-          />
-        </div>
+          {/* Mobile */}
+          <div className="fixed inset-0 z-50 lg:hidden flex">
+            <div className="w-64 bg-white shadow-lg">
+              <NotificationSection />
+            </div>
+            <div
+              className="flex-1 bg-black bg-opacity-50"
+              onClick={() => setShowNotifications(false)}
+            />
+          </div>
+        </>
       )}
     </div>
   );

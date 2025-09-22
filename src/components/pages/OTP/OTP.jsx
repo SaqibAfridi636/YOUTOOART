@@ -10,14 +10,24 @@ const OTP = () => {
     const [showCreatedPopup, setShowCreatedPopup] = useState(false);
     const [showCompleteProfilePopup, setShowCompleteProfilePopup] = useState(false);
     const [showStep2Popup, setShowStep2Popup] = useState(false);
+    const [showVerifySuccess, setShowVerifySuccess] = useState(false);
+
 
     const handleVerify = () => {
         if (otp.length === 6) {
-            setShowCreatedPopup(true);
+            // show green success popup first
+            setShowVerifySuccess(true);
+
+            // after a short moment, hide success and open "Account Created"
+            setTimeout(() => {
+                setShowVerifySuccess(false);
+                setShowCreatedPopup(true);
+            }, 1200); // feel free to tweak the duration
         } else {
             alert("Please enter a valid 6-digit OTP");
         }
     };
+
 
     const handleCreateProfile = () => {
         setShowCreatedPopup(false);
@@ -43,7 +53,7 @@ const OTP = () => {
                 <div className="flex flex-col justify-center flex-1">
                     <button
                         onClick={() => navigate(-1)}
-                        className="text-2xl font-bold mb-2"
+                        className="text-2xl font-bold mr-[500px] mb-4"
                     >
                         ←
                     </button>
@@ -166,6 +176,25 @@ const OTP = () => {
                         </div>
                     </div>
                 )}
+
+                {/* ✅ Verification Success Popup */}
+                {showVerifySuccess && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+                        <div className="bg-white rounded-xl shadow-lg p-8 text-center">
+                            <div className="mx-auto mb-4 h-20 w-20 rounded-full bg-emerald-500 grid place-items-center">
+                                {/* Checkmark (SVG) */}
+                                <svg viewBox="0 0 24 24" className="h-10 w-10 text-white">
+                                    <path
+                                        fill="currentColor"
+                                        d="M9.0 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"
+                                    />
+                                </svg>
+                            </div>
+                            <h3 className="text-xl font-bold">Verification Successful</h3>
+                        </div>
+                    </div>
+                )}
+
 
                 {/* ✅ Step 2 - Complete Profile Form Popup */}
                 {showStep2Popup && (

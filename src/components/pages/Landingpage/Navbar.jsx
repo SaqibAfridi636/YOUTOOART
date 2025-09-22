@@ -98,9 +98,9 @@ const Navbar = () => {
             {menuOpen && (
                 <div className="sm:hidden absolute left-0 right-0 mt-2 w-full rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-20">
                     <div className="py-2">
-                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Home</a>
-                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Talent</a>
-                        <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Casting Call</a>
+                        <a href="/home" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Home</a>
+                        <a href="/talent" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Talent</a>
+                        <a href="casting" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Casting Call</a>
                         <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Categories</a>
                         <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Content</a>
                         <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">How it Works</a>
@@ -110,6 +110,7 @@ const Navbar = () => {
                         {/* Sign Up button inside dropdown */}
                         <div className="px-4 mt-2">
                             <button
+                            onClick={() => navigate("/Login")}
                                 type="button"
                                 className="w-full h-[40px] rounded-[20px] bg-gray-200 text-sm font-medium text-black mt-[50px]"
                             >
